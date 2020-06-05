@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'dart:convert';
 import 'package:exifdart/exifdart.dart';
+import 'package:flutter_wyz/config/configUI.dart';
 import 'package:flutter_wyz/page/index/index.dart';
 import 'package:flutter_wyz/util/Toast.dart';
 import 'package:flutter_wyz/util/local_storage.dart';
@@ -16,11 +17,11 @@ class MsgAdd extends StatefulWidget {
 }
 
 class _MsgAddState extends State<MsgAdd> {
-  TextEditingController _pwdcontroller1 = new TextEditingController();
+  TextEditingController _pwdController1 = new TextEditingController();
   List<String> _listPic = [];
 
   Future getImage1() async {
-    _uploadIng();
+    _uploadImg();
     File image = await ImagePicker.pickImage(source: ImageSource.camera);
     print(image.path);
     if (image.path.endsWith("jpg") ||
@@ -42,7 +43,7 @@ class _MsgAddState extends State<MsgAdd> {
   }
 
   Future getImage() async {
-    _uploadIng();
+    _uploadImg();
     File image = await ImagePicker.pickImage(source: ImageSource.gallery);
     print(image.path);
     if (image.path.endsWith("jpg") ||
@@ -95,7 +96,7 @@ class _MsgAddState extends State<MsgAdd> {
 //    return result;
   }
 
-  _uploadIng() {
+  _uploadImg() {
     showDialog(
         barrierDismissible: false,
         context: context,
@@ -231,7 +232,7 @@ class _MsgAddState extends State<MsgAdd> {
   }
 
   _commit() async {
-    if (_pwdcontroller1.text.isNotEmpty &&
+    if (_pwdController1.text.isNotEmpty &&
         (_listPic == null && _listPic.length < 1)) {
       Toast.toast(context, '请先输入文字或者上传图片！');
     } else {
@@ -245,10 +246,10 @@ class _MsgAddState extends State<MsgAdd> {
         else
           picUrls = picUrls + _listPic[i] + "";
       }
-      String datax = json.encode(
-          {'content': _pwdcontroller1.text, 'userId': id, "picUrls": picUrls});
-      print(datax);
-      final http.Response response = await http.post(url, body: datax);
+      String dataX = json.encode(
+          {'content': _pwdController1.text, 'userId': id, "picUrls": picUrls});
+      print(dataX);
+      final http.Response response = await http.post(url, body: dataX);
       Utf8Decoder utf8decoder = new Utf8Decoder();
       Map data = json.decode(utf8decoder.convert(response.bodyBytes));
       var result = data['code'];
@@ -261,6 +262,16 @@ class _MsgAddState extends State<MsgAdd> {
         Toast.toast(context, data['msg']);
       }
     }
+  }
+
+  Widget _cell(Widget widget) {
+    return Expanded(
+      child: Container(
+        padding: ConfigUI.getEdgeInsets2(),
+        height: ConfigUI.v170,
+        child: widget,
+      ),
+    );
   }
 
   @override
@@ -281,7 +292,7 @@ class _MsgAddState extends State<MsgAdd> {
                     textInputAction: TextInputAction.done,
                     decoration: InputDecoration(
                         hintText: '输入框...', border: InputBorder.none),
-                    controller: _pwdcontroller1,
+                    controller: _pwdController1,
                     maxLines: 6,
 //                    autofocus: true,
                     obscureText: false,
@@ -290,55 +301,26 @@ class _MsgAddState extends State<MsgAdd> {
                 ),
               ),
               Container(
+                padding: EdgeInsets.fromLTRB(ConfigUI.padding2, 0, ConfigUI.padding2, 0),
                 height:
-                    _listPic.length < 3 ? 170 : _listPic.length < 6 ? 340 : 510,
+                    _listPic.length < 3 ? ConfigUI.v170 : _listPic.length < 6 ? ConfigUI.v170 * 2 : ConfigUI.v170 * 3,
                 child: Column(
                   children: <Widget>[
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: <Widget>[
-                        Expanded(
-                          child: Container(
-                            height: 170,
-                            child: _getPic(0),
-                          ),
-                        ),
-                        Expanded(
-                          child: Container(
-                            height: 170,
-                            child: _getPic(1),
-                          ),
-                        ),
-                        Expanded(
-                          child: Container(
-                            height: 170,
-                            child: _getPic(2),
-                          ),
-                        ),
+                        _cell(_getPic(0)),
+                        _cell(_getPic(1)),
+                        _cell(_getPic(2)),
                       ],
                     ),
                     _listPic.length >= 3
                         ? Row(
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: <Widget>[
-                              Expanded(
-                                child: Container(
-                                  height: 170,
-                                  child: _getPic(3),
-                                ),
-                              ),
-                              Expanded(
-                                child: Container(
-                                  height: 170,
-                                  child: _getPic(4),
-                                ),
-                              ),
-                              Expanded(
-                                child: Container(
-                                  height: 170,
-                                  child: _getPic(5),
-                                ),
-                              ),
+                                _cell(_getPic(3)),
+                                _cell(_getPic(4)),
+                                _cell(_getPic(5)),
                             ],
                           )
                         : Container(),
@@ -346,24 +328,9 @@ class _MsgAddState extends State<MsgAdd> {
                         ? Row(
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: <Widget>[
-                              Expanded(
-                                child: Container(
-                                  height: 170,
-                                  child: _getPic(6),
-                                ),
-                              ),
-                              Expanded(
-                                child: Container(
-                                  height: 170,
-                                  child: _getPic(7),
-                                ),
-                              ),
-                              Expanded(
-                                child: Container(
-                                  height: 170,
-                                  child: _getPic(8),
-                                ),
-                              ),
+                              _cell(_getPic(6)),
+                              _cell(_getPic(7)),
+                              _cell(_getPic(8)),
                             ],
                           )
                         : Container(),

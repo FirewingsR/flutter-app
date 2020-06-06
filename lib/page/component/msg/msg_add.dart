@@ -1,16 +1,18 @@
-import 'dart:io';
 import 'dart:convert';
+import 'dart:io';
+
 import 'package:exifdart/exifdart.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_image_compress/flutter_image_compress.dart';
+import 'package:flutter_wyz/config/address.dart';
+import 'package:flutter_wyz/config/config.dart';
 import 'package:flutter_wyz/config/configUI.dart';
 import 'package:flutter_wyz/localization/default_localizations.dart';
 import 'package:flutter_wyz/page/index/index.dart';
 import 'package:flutter_wyz/util/Toast.dart';
 import 'package:flutter_wyz/util/local_storage.dart';
 import 'package:http/http.dart' as http;
-import 'package:flutter/material.dart';
-import 'package:flutter_wyz/config/config.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:flutter_image_compress/flutter_image_compress.dart';
 
 class MsgAdd extends StatefulWidget {
   @override
@@ -112,7 +114,7 @@ class _MsgAddState extends State<MsgAdd> {
         });
   }
 
-  uploadPic(data1) async {
+  uploadPic2(data1) async {
     var url = Config().host + '/file/uploadBase64';
     try {
       final http.Response response = await http.post(url, body: data1);
@@ -124,6 +126,29 @@ class _MsgAddState extends State<MsgAdd> {
       });
     } catch (e) {
       print("上传文件失败");
+    }
+  }
+
+  uploadPic(image) async {
+    var url = Address.getUploadByApi(new DateTime.now().millisecondsSinceEpoch.toString() + ".up");
+    try {
+      var headers = {"Authorization": "token " + Address.token};
+      var body = {
+        "message": "uploadPic",
+        "committer": {"name": "fireteck", "email": "firewings.russia@gmail.com"},
+        "content": image
+      };
+      final http.Response response = await http.put(url, headers:headers, body: json.encode(body));
+      var data = json.decode(response.body);
+      setState(() {
+        // _listPic.add(Address.getFromHost(data['content']['path']));
+        _listPic.add(data['content']['download_url']);
+        // print(data);
+        Navigator.pop(context);
+      });
+    } catch (e) {
+      Navigator.pop(context);
+      Toast.toast(context, "上传文件失败");
     }
   }
 
@@ -225,7 +250,7 @@ class _MsgAddState extends State<MsgAdd> {
           ),
           child: Image.network((_listPic.length <= i || _listPic[i] == null)
               ? 'https://assets-store-cdn.48lu.cn/assets-store/5002cfc3bf41f67f51b1d979ca2bd637.png'
-              : _listPic[i] + "?x-oss-process=image/resize,m_lfit,h_800,w_800"),
+              : _listPic[i]),// + "?x-oss-process=image/resize,m_lfit,h_800,w_800"
         ),
       );
     } else {

@@ -57,8 +57,8 @@ class _ChatHomeState extends State<ChatHome> {
 
   FlutterSound flutterSound = new FlutterSound();
   bool _f = true;
-  String _myHeadUrl = null;
-  String _fHeadUrl = null;
+  String _myHeadUrl;
+  String _fHeadUrl;
   String _id = "";
   String _token = "";
   String _userId = "";
@@ -1531,7 +1531,7 @@ class _ChatHomeState extends State<ChatHome> {
     }
     if (res) {
       try {
-        String path = await flutterSound.startRecorder(null);
+        String path = await flutterSound.startRecorder();
         print('startRecorder: $path');
         _path = path;
         _recorderSubscription = flutterSound.onRecorderStateChanged.listen((e) {

@@ -82,9 +82,7 @@ class _VersionState extends State<Version> with SingleTickerProviderStateMixin {
 
   nowUpdate() async {
     Navigator.of(context).pop();
-    print(Platform.isAndroid);
-    print(Platform.isIOS);
-    print(Platform.isMacOS);
+    print("${Platform.isAndroid} ${Platform.isIOS} ${Platform.isWindows} ${Platform.isMacOS}");
     if (Platform.isAndroid) {
       bool res = await SimplePermissions.checkPermission(
           Permission.WriteExternalStorage);
@@ -100,8 +98,7 @@ class _VersionState extends State<Version> with SingleTickerProviderStateMixin {
           print(directory.path);
           FlutterDownloader.initialize();
           FlutterDownloader.registerCallback((id, status, progress) {
-            print(
-                'Download task ($id) is in status ($status) and process ($progress)');
+            print('Download task ($id) is in status ($status) and process ($progress)');
             if (status == DownloadTaskStatus.complete) {
               print(directory.path);
               print(_fileName);

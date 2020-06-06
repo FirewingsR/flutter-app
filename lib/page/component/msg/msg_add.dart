@@ -2,6 +2,7 @@ import 'dart:io';
 import 'dart:convert';
 import 'package:exifdart/exifdart.dart';
 import 'package:flutter_wyz/config/configUI.dart';
+import 'package:flutter_wyz/localization/default_localizations.dart';
 import 'package:flutter_wyz/page/index/index.dart';
 import 'package:flutter_wyz/util/Toast.dart';
 import 'package:flutter_wyz/util/local_storage.dart';
@@ -66,7 +67,9 @@ class _MsgAddState extends State<MsgAdd> {
 
   Future<int> getImageRotateAngular(List<int> bytes) async {
     Map<String, dynamic> tags = await readExif(MemoryBlobReader(bytes));
-    if (tags == null || tags['Orientation'] == null) return 0;
+    if (tags == null || tags['Orientation'] == null) {
+      return 0;
+    }
     var orientation = tags['Orientation']; //获取该照片的拍摄方向
     switch (orientation) {
       case 3:
@@ -89,8 +92,7 @@ class _MsgAddState extends State<MsgAdd> {
       quality: 94,
       rotate: r,
     );
-    print(file.lengthSync());
-    print(result.length);
+    print("${file.lengthSync()} ${result.length}");
     var image_base64 = base64.encode(result);
     uploadPic(image_base64);
 //    return result;
@@ -278,7 +280,7 @@ class _MsgAddState extends State<MsgAdd> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("发布消息"),
+        title: Text(FTLocalizations.i18n(context).publish_activity),
       ),
       body: SingleChildScrollView(
         child: Container(

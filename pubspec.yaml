@@ -12,30 +12,35 @@ dependencies:
   simple_permissions: 0.1.9
   package_info: 0.3.2+1
   path_provider: ^1.4.0
-  flutter_downloader: 1.0.5
-  open_file: 1.2.0
-  image_picker: 0.4.12
+  flutter_downloader: ^1.4.3
+  open_file: 3.0.1
+  image_picker: ^0.6.7
   image_crop: ^0.3.2
   shared_preferences: 0.4.0
-  flutter_image_compress: 0.6.8
+  flutter_image_compress: ^0.6.8
   cupertino_icons: ^0.1.2
   http: ^0.12.0
-  barcode_scan: 0.0.5
+  barcode_scan: ^1.0.0
   cached_network_image: 2.2.0+1
   exifdart: ^0.7.0+3
   dio: ^2.0.0
-  jpush_flutter: 0.0.11
-  flutter_sound: ^1.4.0
-  wifi: 0.1.4
+  jpush_flutter: 0.5.5
+  flutter_sound: ^4.0.6
+  wifi: 0.1.5
   flutter_drag_scale:
     git: https://github.com/LiuC520/flutter_drag_scale.git
   #  android only 如果在苹果手机或者苹果虚拟机上运行，请注释掉local_notifications
-#  local_notifications: 0.0.3
+  #  local_notifications: 0.0.3
+  flutter_localizations:
+    sdk: flutter
 
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
+
+#dependency_overrides:
+#  intl: ^0.16.1
 
 flutter:
   uses-material-design: true

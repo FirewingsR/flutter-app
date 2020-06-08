@@ -114,7 +114,7 @@ class _MsgAddState extends State<MsgAdd> {
         });
   }
 
-  uploadPic2(data1) async {
+  uploadPic(data1) async {
     var url = Config().host + '/file/uploadBase64';
     try {
       final http.Response response = await http.post(url, body: data1);
@@ -129,8 +129,8 @@ class _MsgAddState extends State<MsgAdd> {
     }
   }
 
-  uploadPic(image) async {
-    var url = Address.getUploadByApi(new DateTime.now().millisecondsSinceEpoch.toString() + ".up");
+  uploadPic1(image) async {
+    var url = Address.getUploadByApi(DateTime.now().microsecondsSinceEpoch.toString() + ".up");
     try {
       var headers = {"Authorization": "token " + Address.token};
       var body = {
@@ -265,7 +265,9 @@ class _MsgAddState extends State<MsgAdd> {
     } else {
       String token = await LocalStorage().get("token");
       String id = await LocalStorage().get("userId");
-      String url = Config().host + "/msg?token=" + token;
+      // String url = Config().host + "/msg?token=" + token;
+      String url = Address.getPubMsgAddr(token);
+      var headers = {'Cookie': 'connect.sid=s%3A8pY85Z4Ah1uY0jmRFLjvB75B037vE8_F.BFHanjLNnqPGObJMrkE5szpANgp%2BPtHA%2BVG6BmZjcDo'};
       String picUrls = "";
       for (int i = 0; i < _listPic.length; i++) {
         if (i < _listPic.length - 1)
@@ -276,7 +278,7 @@ class _MsgAddState extends State<MsgAdd> {
       String dataX = json.encode(
           {'content': _pwdController1.text, 'userId': id, "picUrls": picUrls});
       print(dataX);
-      final http.Response response = await http.post(url, body: dataX);
+      final http.Response response = await http.post(url, headers: headers, body: dataX);
       Utf8Decoder utf8decoder = new Utf8Decoder();
       Map data = json.decode(utf8decoder.convert(response.bodyBytes));
       var result = data['code'];

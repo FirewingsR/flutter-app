@@ -6,6 +6,8 @@ class Address {
   static const hostApi = "https://api.github.com/repos/fireteck/CloseFriend/contents";
   static const host = "https://fireteck.github.io/CloseFriend";
 
+  static const String hostDev = "http://192.168.1.94:9988/v";
+
   static String getUploadByApi(String file_name) {
     return "$hostApi/uploadBase64/$file_name";
   }
@@ -13,4 +15,6 @@ class Address {
   static String getFromHost(String file_name) {
     return "$host/$file_name";
   }
+
+  static String getPubMsgAddr(String token) => "$hostDev/user/msg?token=$token";
 }

@@ -486,17 +486,14 @@ class _ChatHomeState extends State<ChatHome> {
     }
   }
 
-  _sendTextMsg() async {
-    String m = _msgController.text;
-    print(m);
-    _msgController.text = "";
+  _sendTextMsg(String m) async {
     String url = Config().host + "/chat?&token=" + _token;
     String datax = json
         .encode({'content': m, 'userId': _userId, 'friendId': _id, 'type': 1});
     final http.Response response = await http.post(url, body: datax);
     Utf8Decoder utf8decoder = new Utf8Decoder();
     Map data = json.decode(utf8decoder.convert(response.bodyBytes));
-    print(data);
+    print("_sendTextMsg $data ");
     var result = data['code'];
     if (result == 0) {
       setState(() {
@@ -653,7 +650,9 @@ class _ChatHomeState extends State<ChatHome> {
                               _msgController.text == '') {
                             Toast.toast(context, '不能发送空消息！');
                           } else {
-                            _sendTextMsg();
+                            String m = _msgController.text;
+                            _msgController.text = "";
+                            _sendTextMsg(m);
                           }
                         },
                       ),

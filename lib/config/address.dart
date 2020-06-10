@@ -7,6 +7,7 @@ class Address {
   static const host = "https://fireteck.github.io/CloseFriend";
 
   static const String hostDev = "http://192.168.1.94:9988/v";
+  static const String hostDevUser = "http://192.168.1.94:9988/v/user";
 
   static String getUploadByApi(String file_name) {
     return "$hostApi/uploadBase64/$file_name";

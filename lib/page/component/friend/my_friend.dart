@@ -35,8 +35,8 @@ class _MyFriendState extends State<MyFriend> {
 
   _initData() async {
     String token = await LocalStorage().get("token");
-    String url =
-        Config().host + "/user/queryMyFriend?id=" + _id + "&token=" + token;
+    String url = Config().host + "/user/queryMyFriend?id=" + _id + "&token=" + token;
+    print(url);
     final http.Response response = await http.get(url);
     Utf8Decoder utf8decoder = new Utf8Decoder();
     Map data = json.decode(utf8decoder.convert(response.bodyBytes));

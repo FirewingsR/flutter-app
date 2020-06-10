@@ -38,6 +38,7 @@ class _FriendMyState extends State<FriendMy> {
     String token = await LocalStorage().get("token");
     String url =
         Config().host + "/user/queryFriendMy?id=" + _id + "&token=" + token;
+    print(url);
     final http.Response response = await http.get(url);
     Utf8Decoder utf8decoder = new Utf8Decoder();
     Map data = json.decode(utf8decoder.convert(response.bodyBytes));

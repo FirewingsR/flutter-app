@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_wyz/config/address.dart';
 import 'package:flutter_wyz/config/config.dart';
 import 'package:flutter_wyz/page/component/friend/friend_info.dart';
 import 'package:flutter_wyz/page/component/msg/msg_info.dart';
@@ -17,7 +18,9 @@ class MsgList extends StatefulWidget {
 class _MsgListState extends State<MsgList> {
   _initData() async {
     String token = await LocalStorage().get("token");
-    String url = Config().host +
+
+    // String url = Config().host +
+    String url = Address.hostDevUser +
         "/msg/queryAll?start=" +
         _start.toString() +
         "&length=" +

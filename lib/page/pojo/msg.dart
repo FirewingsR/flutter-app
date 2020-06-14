@@ -27,7 +27,11 @@ class Msg {
     this.content = json['content'];
     this.picUrls = json['picUrls'];
     this.userName = json['userName'];
-    this.userHeadUrl = json['userHeadUrl'];
+    if (json['userHeadUrl'] is String) {
+      this.userHeadUrl = json['userHeadUrl'];
+    } else {
+      this.userHeadUrl = json['userHeadUrl']['data'];
+    }
     this.createAt = json['createAt'];
     this.loveNumber = json['loveNumber'];
     this.commentNumber = json['commentNumber'];

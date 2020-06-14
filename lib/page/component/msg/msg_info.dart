@@ -21,12 +21,13 @@ class MsgInfo extends StatefulWidget {
 
 class _MsgInfoState extends State<MsgInfo> {
   _MsgInfoState(id) {
-    _id = id;
+    _id ??= id;
     _initMsg();
     _initComment();
   }
 
-  String _id = "-1";
+  // todo 临时
+  String _id = "198";
   Msg _msg;
   bool _loadinged = false;
   List<Comment> _list = [];
@@ -43,7 +44,7 @@ class _MsgInfoState extends State<MsgInfo> {
     if (result == 0) {
       List<Comment> list = [];
       List<dynamic> datas = data['data'];
-      print(datas.length);
+      // print(datas.length);
       for (int i = 0; i < datas.length; i++) {
         list.add(Comment.fromJson(datas[i]));
       }

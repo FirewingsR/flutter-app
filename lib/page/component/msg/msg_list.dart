@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_wyz/config/address.dart';
@@ -8,7 +10,6 @@ import 'package:flutter_wyz/page/pojo/msg.dart';
 import 'package:flutter_wyz/util/Toast.dart';
 import 'package:flutter_wyz/util/local_storage.dart';
 import 'package:http/http.dart' as http;
-import 'dart:convert';
 
 class MsgList extends StatefulWidget {
   @override
@@ -19,14 +20,16 @@ class _MsgListState extends State<MsgList> {
   _initData() async {
     String token = await LocalStorage().get("token");
 
-    // String url = Config().host +
-    String url = Address.hostDevUser +
-        "/msg/queryAll?start=" +
-        _start.toString() +
-        "&length=" +
-        _length.toString() +
-        "&token=" +
-        token;
+//     String url = Config().host +
+//        "/msg/queryAll?start=" +
+//        _start.toString() +
+//        "&length=" +
+//        _length.toString() +
+//        "&token=" +
+//        token;
+
+    String url = "${Address.hostGO}/msg/queryAll?apikey=${Address.apikey}&start=$_start&length=$_length";
+
     final http.Response response = await http.get(url);
     Utf8Decoder utf8decoder = new Utf8Decoder();
     Map data = json.decode(utf8decoder.convert(response.bodyBytes));
@@ -99,10 +102,13 @@ class _MsgListState extends State<MsgList> {
             height: 70,
             width: 70,
             child: ClipOval(
-              child: Image.network(_list[index].userHeadUrl == null
-                  ? 'https://assets-store-cdn.48lu.cn/assets-store/5002cfc3bf41f67f51b1d979ca2bd637.png'
-                  : _list[index].userHeadUrl +
-                      "?x-oss-process=image/resize,m_lfit,h_100,w_100"),
+//              child: Image.network(_list[index].userHeadUrl == null
+//                  ? 'https://assets-store-cdn.48lu.cn/assets-store/5002cfc3bf41f67f51b1d979ca2bd637.png'
+//                  : _list[index].userHeadUrl +
+//                      "?x-oss-process=image/resize,m_lfit,h_100,w_100"),
+              child: Image.memory(
+                base64.decode(_list[index].userHeadUrl), width: 100, fit: BoxFit.fitWidth, gaplessPlayback: true, //防止重绘
+              ),
             ),
           ),
         ),
